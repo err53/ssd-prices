@@ -1,0 +1,32 @@
+[project]
+name = "ssd-prices"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "Jason Huang", email = "jasonhuang20035@gmail.com" }
+]
+dependencies = [
+    "pandas>=2.2.3",
+    "lxml>=5.3.0",
+    "html5lib>=1.1",
+    "beautifulsoup4>=4.12.3",
+    "cloudscraper>=1.2.71",
+    "python-levenshtein>=0.26.0",
+    "thefuzz>=0.22.1",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ssd_prices"]
