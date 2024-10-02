@@ -70,10 +70,8 @@ async def main() -> None:
     # rename Affiliate Link to Name
     storage_prices = storage_prices.rename(columns={"Affiliate Link": "Amazon Name"})
     # In name, replace substrings
-    storage_prices["Amazon Name"] = (
-        storage_prices["Amazon Name"]
-        .str.replace("TEAMGROUP", "Team")
-        .replace("WD", "WD (Western Digital)")
+    storage_prices["Amazon Name"] = storage_prices["Amazon Name"].str.replace(
+        "TEAMGROUP", "Team"
     )
     # print(storage_prices)
 
