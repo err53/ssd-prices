@@ -13,6 +13,13 @@ dependencies = [
     "cloudscraper>=1.2.71",
     "python-levenshtein>=0.26.0",
     "thefuzz>=0.22.1",
+    "ipykernel>=6.29.5",
+    "openai>=1.51.0",
+    "pydantic>=2.9.2",
+    "python-dotenv>=1.0.1",
+    "transformers[torch]>=4.45.1",
+    "torch>=2.4.1",
+    "torchvision>=0.19.1",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"

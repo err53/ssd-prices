@@ -10,52 +10,215 @@
 #   universal: false
 
 -e file:.
+accelerate==0.34.2
+    # via transformers
+annotated-types==0.7.0
+    # via pydantic
+anyio==4.6.0
+    # via httpx
+    # via openai
+appnope==0.1.4
+    # via ipykernel
+asttokens==2.4.1
+    # via stack-data
 beautifulsoup4==4.12.3
     # via ssd-prices
 certifi==2024.8.30
+    # via httpcore
+    # via httpx
     # via requests
 charset-normalizer==3.3.2
     # via requests
 cloudscraper==1.2.71
     # via ssd-prices
+comm==0.2.2
+    # via ipykernel
+debugpy==1.8.6
+    # via ipykernel
+decorator==5.1.1
+    # via ipython
+distro==1.9.0
+    # via openai
+executing==2.1.0
+    # via stack-data
+filelock==3.16.1
+    # via huggingface-hub
+    # via torch
+    # via transformers
+fsspec==2024.9.0
+    # via huggingface-hub
+    # via torch
+h11==0.14.0
+    # via httpcore
 html5lib==1.1
     # via ssd-prices
+httpcore==1.0.6
+    # via httpx
+httpx==0.27.2
+    # via openai
+huggingface-hub==0.25.1
+    # via accelerate
+    # via tokenizers
+    # via transformers
 idna==3.10
+    # via anyio
+    # via httpx
     # via requests
+ipykernel==6.29.5
+    # via ssd-prices
+ipython==8.27.0
+    # via ipykernel
+jedi==0.19.1
+    # via ipython
+jinja2==3.1.4
+    # via torch
+jiter==0.5.0
+    # via openai
+jupyter-client==8.6.3
+    # via ipykernel
+jupyter-core==5.7.2
+    # via ipykernel
+    # via jupyter-client
 levenshtein==0.26.0
     # via python-levenshtein
 lxml==5.3.0
     # via ssd-prices
+markupsafe==2.1.5
+    # via jinja2
+matplotlib-inline==0.1.7
+    # via ipykernel
+    # via ipython
+mpmath==1.3.0
+    # via sympy
+nest-asyncio==1.6.0
+    # via ipykernel
+networkx==3.3
+    # via torch
 numpy==2.1.1
+    # via accelerate
     # via pandas
+    # via torchvision
+    # via transformers
+openai==1.51.0
+    # via ssd-prices
+packaging==24.1
+    # via accelerate
+    # via huggingface-hub
+    # via ipykernel
+    # via transformers
 pandas==2.2.3
     # via ssd-prices
+parso==0.8.4
+    # via jedi
+pexpect==4.9.0
+    # via ipython
+pillow==10.4.0
+    # via torchvision
+platformdirs==4.3.6
+    # via jupyter-core
+prompt-toolkit==3.0.48
+    # via ipython
+psutil==6.0.0
+    # via accelerate
+    # via ipykernel
+ptyprocess==0.7.0
+    # via pexpect
+pure-eval==0.2.3
+    # via stack-data
+pydantic==2.9.2
+    # via openai
+    # via ssd-prices
+pydantic-core==2.23.4
+    # via pydantic
+pygments==2.18.0
+    # via ipython
 pyparsing==3.1.4
     # via cloudscraper
 python-dateutil==2.9.0.post0
+    # via jupyter-client
     # via pandas
+python-dotenv==1.0.1
+    # via ssd-prices
 python-levenshtein==0.26.0
     # via ssd-prices
 pytz==2024.2
     # via pandas
+pyyaml==6.0.2
+    # via accelerate
+    # via huggingface-hub
+    # via transformers
+pyzmq==26.2.0
+    # via ipykernel
+    # via jupyter-client
 rapidfuzz==3.10.0
     # via levenshtein
     # via thefuzz
+regex==2024.9.11
+    # via transformers
 requests==2.32.3
     # via cloudscraper
+    # via huggingface-hub
     # via requests-toolbelt
+    # via transformers
 requests-toolbelt==1.0.0
     # via cloudscraper
+safetensors==0.4.5
+    # via accelerate
+    # via transformers
+setuptools==75.1.0
+    # via torch
 six==1.16.0
+    # via asttokens
     # via html5lib
     # via python-dateutil
+sniffio==1.3.1
+    # via anyio
+    # via httpx
+    # via openai
 soupsieve==2.6
     # via beautifulsoup4
+stack-data==0.6.3
+    # via ipython
+sympy==1.13.3
+    # via torch
 thefuzz==0.22.1
     # via ssd-prices
+tokenizers==0.20.0
+    # via transformers
+torch==2.4.1
+    # via accelerate
+    # via ssd-prices
+    # via torchvision
+    # via transformers
+torchvision==0.19.1
+    # via ssd-prices
+tornado==6.4.1
+    # via ipykernel
+    # via jupyter-client
+tqdm==4.66.5
+    # via huggingface-hub
+    # via openai
+    # via transformers
+traitlets==5.14.3
+    # via comm
+    # via ipykernel
+    # via ipython
+    # via jupyter-client
+    # via jupyter-core
+    # via matplotlib-inline
+transformers==4.45.1
+    # via ssd-prices
+typing-extensions==4.12.2
+    # via huggingface-hub
+    # via openai
+    # via pydantic
+    # via pydantic-core
+    # via torch
 tzdata==2024.2
     # via pandas
 urllib3==2.2.3
     # via requests
+wcwidth==0.2.13
+    # via prompt-toolkit
 webencodings==0.5.1
     # via html5lib

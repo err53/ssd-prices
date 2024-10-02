@@ -1,10 +1,8 @@
-import argparse
-import io
+import asyncio
 from bs4 import BeautifulSoup
 import cloudscraper
 import pandas as pd
-from thefuzz import fuzz
-from thefuzz import process
+import ssd_prices.gpt_fuzz as gpt_fuzz
 
 scraper = cloudscraper.create_scraper()
 
@@ -55,29 +53,9 @@ def get_storage_ratings():
     return df
 
 
-def save_dataframes():
-    print("Saving dataframes to disk...")
+async def main() -> None:
     storage_prices = get_storage_prices(locale="ca")
     storage_ratings = get_storage_ratings()
-
-    storage_prices.to_pickle("datasets/storage_prices.pkl")
-    storage_ratings.to_pickle("datasets/storage_ratings.pkl")
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--save", help="Save the dataframes to disk", action="store_true"
-    )
-    args = parser.parse_args()
-
-    if args.save:
-        save_dataframes()
-
-    storage_prices = pd.read_pickle("datasets/storage_prices.pkl")
-    storage_ratings = pd.read_pickle("datasets/storage_ratings.pkl")
-    print(storage_prices)
-    print(storage_ratings)
 
     # Replace non-breaking spaces in column names
     storage_prices.columns = storage_prices.columns.str.replace("\xa0", " ")
@@ -85,33 +63,66 @@ if __name__ == "__main__":
     # storage_prices preprocessing
     storage_prices = storage_prices[
         (~storage_prices["Capacity"].str.contains("x"))
-        & (storage_prices["Form Factor"].isin(["M.2", "Internal"]))
-        & (storage_prices["Technology"].isin(["NVMe", "SSD"]))
+        & (storage_prices["Form Factor"].isin(["M.2"]))
+        & (storage_prices["Technology"].isin(["NVMe"]))
         & (storage_prices["Condition"] == "New")
     ]
     # rename Affiliate Link to Name
     storage_prices = storage_prices.rename(columns={"Affiliate Link": "Amazon Name"})
     # In name, replace substrings
-    storage_prices["Amazon Name"] = storage_prices["Amazon Name"].str.replace(
-        "TEAMGROUP", "Team"
+    storage_prices["Amazon Name"] = (
+        storage_prices["Amazon Name"]
+        .str.replace("TEAMGROUP", "Team")
+        .replace("WD", "WD (Western Digital)")
     )
-    print(storage_prices)
+    # print(storage_prices)
 
     # storage_ratings preprocessing
     # filter ratings for only M.2 drives
     storage_ratings = storage_ratings[storage_ratings["Form Factor"] == "M.2"]
     storage_ratings["Name"] = storage_ratings["Brand"] + " " + storage_ratings["Model"]
-    print(storage_ratings)
+    # print(storage_ratings)
 
-    # merge storage_prices and storage_ratings using a fuzzy join with thefuzz
-    for index, row in storage_prices.iterrows():
-        match = process.extractOne(row["Amazon Name"], storage_ratings["Name"])
+    # generate Matches for storge ratings
+    matches = storage_ratings["Name"].to_list()
+    print(matches)
+
+    async def match(row, index):
+        mr = gpt_fuzz.MatchRequest(
+            listing_name=row["Amazon Name"],
+            possible_matches=storage_ratings["Name"].to_list(),
+        )
+        match = await gpt_fuzz.match_listing(mr)
         if match:
-            storage_prices.at[index, "Rating"] = match[1]
-            storage_prices.at[index, "Model"] = match[0]
+            storage_prices.at[index, "Product Name"] = match
+            print(match)
         else:
-            storage_prices.at[index, "Rating"] = 0
-            storage_prices.at[index, "Model"] = "Unknown"
+            storage_prices.at[index, "Product Name"] = None
+
+    await asyncio.gather(
+        *[match(row, index) for index, row in storage_prices.iterrows()]
+    )
+
+    # merge storage_prices and storage_ratings
+    storage_prices = storage_prices.merge(
+        storage_ratings,
+        how="left",
+        left_on="Product Name",
+        right_on="Name",
+        suffixes=("", "_rating"),
+    )
+
+    print(storage_prices)
 
     # save to csv
-    storage_prices.to_csv("output/storage_prices.csv", index=False)
+    # os.makedirs("output", exist_ok=True)
+    # storage_prices.to_csv("output/storage_prices.csv", index=False)
+
+    print(
+        storage_prices[
+            ["Amazon Name", "Name", "Capacity", "Price per TB", "Price", "Categories"]
+        ]
+    )
+
+
+asyncio.run(main())

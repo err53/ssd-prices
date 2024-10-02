@@ -12,3 +12,8 @@ wheels/
 # temporary files
 datasets/
 output/
+
+.env
+
+# hide scratch jupyter notebooks
+*.ipynb
