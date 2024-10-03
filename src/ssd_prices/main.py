@@ -87,6 +87,8 @@ async def main() -> None:
     storage_prices["Amazon Name"] = storage_prices["Amazon Name"].str.replace(
         "TEAMGROUP", "Team"
     )
+    # In link, remove query parameters
+    storage_prices["Link"] = storage_prices["Link"].str.split("?", expand=True)[0]
     # print(storage_prices)
 
     # storage_ratings preprocessing
@@ -132,7 +134,15 @@ async def main() -> None:
 
     print(
         storage_prices[
-            ["Amazon Name", "Name", "Capacity", "Price per TB", "Price", "Categories"]
+            [
+                "Amazon Name",
+                "Name",
+                "Capacity",
+                "Price per TB",
+                "Price",
+                "Categories",
+                "Link",
+            ]
         ]
     )
 
