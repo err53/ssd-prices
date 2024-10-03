@@ -67,12 +67,18 @@ async def _main() -> None:
     )
     parser.add_argument(
         "--category",
-        default=["Entry-Level NVMe", "Mid-Range NVMe", "High-End NVMe"],
+        default=None,
         type=str,
         nargs="+",
         help="Categor(y|ies) to filter by. Valid options (for now) are 'Entry-Level NVMe', 'Mid-Range NVMe', and 'High-End NVMe'",
     )
-    parser.add_argument("--size")
+    parser.add_argument(
+        "--capacity",
+        default=None,
+        type=str,
+        nargs="+",
+        help="Capacity to filter by. Valid options (for now) are '1 TB', '2 TB', and '4 TB'",
+    )
 
     args = parser.parse_args()
     gpt_fuzz.init_client(api_key=args.api_key)
@@ -136,7 +142,12 @@ async def _main() -> None:
     )
 
     # filter by categories
-    storage_prices = storage_prices[storage_prices["Categories"].isin(args.category)]
+    if args.category:
+        storage_prices = storage_prices[
+            storage_prices["Categories"].isin(args.category)
+        ]
+    if args.capacity:
+        storage_prices = storage_prices[storage_prices["Capacity"].isin(args.capacity)]
 
     # save to csv
     # os.makedirs("output", exist_ok=True)
