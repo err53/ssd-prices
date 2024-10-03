@@ -110,6 +110,11 @@ async def _main() -> None:
     # filter ratings for only M.2 drives
     storage_ratings = storage_ratings[storage_ratings["Form Factor"] == "M.2"]
     storage_ratings["Name"] = storage_ratings["Brand"] + " " + storage_ratings["Model"]
+
+    # rename WD Black to SN750
+    storage_ratings["Name"] = storage_ratings["Name"].str.replace(
+        "WD Black (later SN750)", "WD SN750"
+    )
     # print(storage_ratings)
 
     # generate Matches for storge ratings
