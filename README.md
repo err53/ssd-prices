@@ -25,6 +25,9 @@ options:
                         Capacity to filter by. Valid options (for now) are '1 TB', '2 TB', and '4 TB'
 ```
 
-## Future plans
+## Features
 
-- [ ] Find an effective fuzzy matcher / zero-shot classifier to avoid using gpt
+- [x] OpenAI GPT-4o for matching listing name to product name
+- [x] Cached GPT fuzzy matching if inputs are unchanged
+- [x] Colorized output to highlight good and bad value SSDs
+- [ ] Use a fuzzy matcher / zero-shot classifier to avoid using gpt
