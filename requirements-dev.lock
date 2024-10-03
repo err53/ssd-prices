@@ -181,6 +181,8 @@ stack-data==0.6.3
     # via ipython
 sympy==1.13.3
     # via torch
+termcolor==2.4.0
+    # via ssd-prices
 thefuzz==0.22.1
     # via ssd-prices
 tokenizers==0.20.0

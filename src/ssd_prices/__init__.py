@@ -5,6 +5,7 @@ import cloudscraper
 import pandas as pd
 import ssd_prices.gpt_fuzz as gpt_fuzz
 import argparse
+import termcolor
 
 scraper = cloudscraper.create_scraper()
 
@@ -140,13 +141,30 @@ async def _main() -> None:
     # os.makedirs("output", exist_ok=True)
     # storage_prices.to_csv("output/storage_prices.csv", index=False)
 
+    colorized_prices = []
+    for original in storage_prices["Price per TB"]:
+        price = float(original.split("$")[1].replace(",", ""))
+        if price <= 90:
+            colorized_price = termcolor.colored(original, "green")
+        elif price <= 110:
+            colorized_price = termcolor.colored(original, "yellow")
+        else:
+            colorized_price = termcolor.colored(original, "red")
+        colorized_prices.append(colorized_price)
+
+    print_df = storage_prices.copy()
+    print_df["Price per TB"] = colorized_prices
+    print_df.columns = print_df.columns.str.replace(
+        "Price per TB", termcolor.colored("Price per TB", "white")
+    )
+
     print(
-        storage_prices[
+        print_df[
             [
                 "Amazon Name",
                 "Name",
                 "Capacity",
-                "Price per TB",
+                termcolor.colored("Price per TB", "white"),
                 "Price",
                 "Categories",
                 "Link",
