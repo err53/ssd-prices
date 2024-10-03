@@ -66,12 +66,13 @@ async def _main() -> None:
         help="OpenAI API key",
     )
     parser.add_argument(
-        "--categories",
+        "--category",
         default=["Entry-Level NVMe", "Mid-Range NVMe", "High-End NVMe"],
         type=str,
         nargs="+",
-        help="List of categories to filter by. Valid options (for now) are 'Entry-Level NVMe', 'Mid-Range NVMe', and 'High-End NVMe'",
+        help="Categor(y|ies) to filter by. Valid options (for now) are 'Entry-Level NVMe', 'Mid-Range NVMe', and 'High-End NVMe'",
     )
+    parser.add_argument("--size")
 
     args = parser.parse_args()
     gpt_fuzz.init_client(api_key=args.api_key)
@@ -135,7 +136,7 @@ async def _main() -> None:
     )
 
     # filter by categories
-    storage_prices = storage_prices[storage_prices["Categories"].isin(args.categories)]
+    storage_prices = storage_prices[storage_prices["Categories"].isin(args.category)]
 
     # save to csv
     # os.makedirs("output", exist_ok=True)
