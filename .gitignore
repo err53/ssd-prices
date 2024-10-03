@@ -17,3 +17,6 @@ output/
 
 # hide scratch jupyter notebooks
 *.ipynb
+
+# cache
+cache/

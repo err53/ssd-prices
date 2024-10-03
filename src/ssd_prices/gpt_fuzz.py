@@ -1,5 +1,8 @@
+from joblib import Memory
 from openai import AsyncOpenAI
 import pydantic
+
+memory = Memory("cache")
 
 client: AsyncOpenAI = None
 
@@ -126,6 +129,7 @@ class MatchRequest(pydantic.BaseModel):
     possible_matches: list[str]
 
 
+@memory.cache
 async def match_listing(match_request: MatchRequest) -> str | None:
     class MatchResponse(pydantic.BaseModel):
         best_match: str | None = pydantic.Field(
