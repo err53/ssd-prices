@@ -1,4 +1,5 @@
 import asyncio
+import os
 from bs4 import BeautifulSoup
 import cloudscraper
 import pandas as pd
@@ -59,7 +60,8 @@ async def main() -> None:
     parser.add_argument(
         "--api-key",
         type=str,
-        required=True,
+        default=os.getenv("OPENAI_API_KEY"),
+        required=bool(not os.getenv("OPENAI_API_KEY")),
         help="OpenAI API key",
     )
 
