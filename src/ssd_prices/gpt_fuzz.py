@@ -1,7 +1,13 @@
 from openai import AsyncOpenAI
 import pydantic
 
-client = AsyncOpenAI()
+client: AsyncOpenAI = None
+
+
+def init_client(api_key: str):
+    global client
+    client = AsyncOpenAI(api_key=api_key)
+
 
 system_prompt = """\
 Take in the name of an Amazon listing, and a list of possible matches, and return the best match or null.

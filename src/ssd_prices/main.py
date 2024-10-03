@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import cloudscraper
 import pandas as pd
 import ssd_prices.gpt_fuzz as gpt_fuzz
+import argparse
 
 scraper = cloudscraper.create_scraper()
 
@@ -54,6 +55,17 @@ def get_storage_ratings():
 
 
 async def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--api-key",
+        type=str,
+        required=True,
+        help="OpenAI API key",
+    )
+
+    args = parser.parse_args()
+    gpt_fuzz.init_client(api_key=args.api_key)
+
     storage_prices = get_storage_prices(locale="ca")
     storage_ratings = get_storage_ratings()
 
